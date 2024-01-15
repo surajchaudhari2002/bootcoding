@@ -1,0 +1,156 @@
+import java.util.*;
+class Student {
+    private int id;
+    private String name;
+    private String grade;
+    private double gpa;
+
+    public Student(int id, String name, String grade, double gpa) {
+        this.id = id;
+        this.name = name;
+        this.grade = grade;
+        this.gpa = gpa;
+    }
+
+    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int studentId) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public double getGpa() {
+        return gpa;
+    }
+
+    public void setGpa(double gpa) {
+        this.gpa = gpa;
+    }
+
+    @Override
+    public String toString() {
+        return "Student ID: " + id + ", Name: " + name + ", Grade: " + grade + ", GPA: " + gpa;
+    }
+}
+
+class StudentManagementSystem {
+
+     HashSet<Student> students = new HashSet<>();
+
+    public void addStudent(Student student) {
+        students.add(student);
+    }
+
+    public void viewStudents() {
+        students.forEach(System.out::println);
+    }
+    
+     public void updateStudent(int id, String newName, String newGrade, double newgpa) {
+        for (Student s : students) {
+            if (s.getId() == id) {
+                s.setName(newName);
+                s.setGrade(newGrade);
+                s.setGpa(newgpa);
+                break;
+            }
+        }
+    }
+
+    public void deleteStudent(int id) {
+        students.removeIf(s -> s.getId() == id);
+    }
+
+    public Student searchStudentByName(String name) {
+        for (Student s : students) {
+            if (s.getName().equalsIgnoreCase(name)) {
+                return s;
+            }
+        }
+    return null;}
+        
+        public void searchStudentByGrade(String grade) {
+        for (Student s : students) {
+            if (s.getGrade() == grade) {
+                System.out.println(s);
+            }
+        }
+    }
+    
+    public double calculateClassGPA() {
+        double totalGpa = 0;
+        for (Student s : students) {
+            totalGpa += s.getGpa();
+        }
+        return totalGpa / students.size();
+    }
+        
+        public void sortStudentsByGPA(double minGPA, double maxGPA) {
+        for (Student s : students) {
+            if (s.getGpa() >= minGPA && s.getGpa() <= maxGPA) {
+                System.out.println(s);
+            }
+        }
+        }
+
+}
+
+
+public class Main
+{
+	public static void main(String[] args) {
+	 
+	  StudentManagementSystem sms = new StudentManagementSystem();
+
+        sms.addStudent(new Student(1, "suraj", "A",9.8));
+        sms.addStudent(new Student(2, "Bobby", "B",7.9));
+        sms.addStudent(new Student(3, "Ram", "B+",8.8));
+        sms.addStudent(new Student(4, "Sanju", "A-",9.0));
+
+        System.out.println("Students List:");
+        sms.viewStudents();
+        
+         sms.updateStudent(2, "Robert", "A+",7.6);
+        System.out.println("\nAfter updating Bobby's details:");
+        sms.viewStudents();
+
+    
+        System.out.println("\nSearching for Ram:");
+        Student foundStudent = sms.searchStudentByName("Ram");
+        System.out.println(foundStudent != null ? foundStudent : "Student not found.");
+        
+
+        
+        sms.deleteStudent(1);
+        System.out.println("\nAfter deleting suraj:");
+        sms.viewStudents();
+        
+        System.out.println("___________________________________________");
+        
+        System.out.println("Student search by grade A- :");
+        sms.searchStudentByGrade("A-");
+        
+        System.out.println("\nClass GPA: " + sms.calculateClassGPA());
+        
+        System.out.println("\nSorting students by GPA (8.5-9.3):");
+        sms.sortStudentsByGPA(8.5, 9.3);
+	}
+	
+}
